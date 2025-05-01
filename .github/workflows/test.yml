@@ -1,0 +1,15 @@
+name: Fuzz CI
+
+on: [push, pull_request]
+
+jobs:
+  build-fuzz:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: sudo apt update && sudo apt install -y gcc python3
+      - name: Build binary
+        run: gcc -g -o vuln vuln.c
+      - name: Run fuzzer
+        run: python3 fuzzer.py
